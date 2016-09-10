@@ -16,8 +16,8 @@ import zombieapocalypse_revised.entitys.accessories.WeaponSack;
  */
 public class TestModel extends Player{
 
-    public TestModel(int x, int y, boolean passable, double health, double maxHealth, double armor, ImageIcon icon, int speed, boolean effectedByGravity, double angle, double size, WeaponSack weaponSack) {
-        super(x, y, passable, health, maxHealth, armor, icon, speed, effectedByGravity, angle, size, weaponSack, new CustomSkinSize(DEFAULT_HEAD_SIZE, DEFAULT_ARM_SIZE, DEFAULT_LEG_SIZE, DEFAULT_BODY_SIZE, DEFAULT_HEAD_POSITION, DEFAULT_HEAD_PIVOT_POSITION, DEFAULT_ARM_PIVOT_POSITION, DEFAULT_ARM_POSITION, DEFAULT_LEG_PIVOT_POSITION, DEFAULT_LEG_POSITION));
+    public TestModel(String name, int x, int y, boolean passable, double health, double maxHealth, double armor, ImageIcon icon, int speed, boolean effectedByGravity, double angle, double size, double damageMultiplyer, WeaponSack weaponSack) {
+        super(name, x, y, passable, health, maxHealth, armor, icon, speed, effectedByGravity, angle, size, damageMultiplyer, weaponSack, new CustomSkinSize(DEFAULT_HEAD_SIZE, DEFAULT_ARM_SIZE, DEFAULT_LEG_SIZE, DEFAULT_BODY_SIZE, DEFAULT_HEAD_POSITION, DEFAULT_HEAD_PIVOT_POSITION, DEFAULT_ARM_PIVOT_POSITION, DEFAULT_ARM_POSITION, DEFAULT_LEG_PIVOT_POSITION, DEFAULT_LEG_POSITION));
     }
 
 }

@@ -23,7 +23,7 @@ public class Controls {
     public static final int DEFAULT_SHOOT = MouseEvent.BUTTON1;
     public static final int RELOAD = KeyEvent.VK_R;
     
-    public static final int EXIT = KeyEvent.VK_ESCAPE;
+    public static final int PAUSE = KeyEvent.VK_ESCAPE;
     
     public static final int CHANGE_WEAPONS = KeyEvent.VK_Q;
     
@@ -36,26 +36,15 @@ public class Controls {
     public int shoot;
     public int reload;
     
-    public int exit;
+    public int pause;
     
     public int changeWeapons;
 
     public Controls(){
-        up = DEFAULT_UP;
-        down = DEFAULT_DOWN;
-        left = DEFAULT_LEFT;
-        right = DEFAULT_RIGHT;
-        jump = DEFAULT_JUMP;
-        
-        shoot = DEFAULT_SHOOT;
-        reload = RELOAD;
-        
-        exit = EXIT;
-        
-        changeWeapons = CHANGE_WEAPONS;
+        reset();
     }
     
-    public Controls(int up, int down, int left, int right, int jump, int shoot, int reload, int exit, int changeWeapons) {
+    public Controls(int up, int down, int left, int right, int jump, int shoot, int reload, int pause, int changeWeapons) {
         this.up = up;
         this.down = down;
         this.left = left;
@@ -65,7 +54,7 @@ public class Controls {
         this.shoot = shoot;
         this.reload = reload;
         
-        this.exit = exit;
+        this.pause = pause;
         
         this.changeWeapons = changeWeapons;
     }
@@ -80,9 +69,28 @@ public class Controls {
         this.shoot = controls.shoot;
         this.reload = controls.reload;
         
-        this.exit = controls.exit;
+        this.pause = controls.pause;
         
         this.changeWeapons = controls.changeWeapons;
+    }
+    
+    public Controls copy(){
+        return new Controls(this);
+    }
+    
+    public void reset(){
+        up = DEFAULT_UP;
+        down = DEFAULT_DOWN;
+        left = DEFAULT_LEFT;
+        right = DEFAULT_RIGHT;
+        jump = DEFAULT_JUMP;
+        
+        shoot = DEFAULT_SHOOT;
+        reload = RELOAD;
+        
+        pause = PAUSE;
+        
+        changeWeapons = CHANGE_WEAPONS;
     }
     
     public static Controls defaultControls(){
@@ -102,7 +110,7 @@ public class Controls {
                 .append("JUMP").append("-").append(jump)
                 .append("SHOOT").append("-").append(shoot)
                 .append("RELOAD").append("-").append(reload)
-                .append("EXIT").append("-").append(exit)
+                .append("PAUSE").append("-").append(pause)
                 .append("CHANGE_WEAPONS").append("-").append(changeWeapons)
                 .append(";")
                 .append("]");

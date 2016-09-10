@@ -23,7 +23,9 @@ import zombieapocalypse_revised.Updater;
  */
 public class Entity extends CollisionBox2D implements Updater, Renderer, Resizer{
     private final Color DEFAULT_COLOR = Color.GRAY;
-        
+    
+    private String name;
+    
     private double hitBoxHeight;
     
     private Color color;
@@ -38,14 +40,16 @@ public class Entity extends CollisionBox2D implements Updater, Renderer, Resizer
     
     /**
      * Creates an Entity
+     * @param name  the name of the entity
      * @param x  the initial x position
      * @param y  the initial y position
      * @param width  the width of the entity
      * @param height  the height of the entity
      * @param passable  if other entitys are allow to pass through this entity
      */
-    public Entity(int x, int y, int width, int height, boolean passable) {
+    public Entity(String name, int x, int y, int width, int height, boolean passable) {
         super(x, y, width, height, passable);
+        this.name = name;
         hitBoxHeight = height;
         color = DEFAULT_COLOR;
         remove = false;
@@ -53,6 +57,7 @@ public class Entity extends CollisionBox2D implements Updater, Renderer, Resizer
     
     public Entity(Entity entity){
         super(entity);
+        name = entity.name;
         hitBoxHeight = entity.hitBoxHeight;
         color = entity.color;
         remove = entity.remove;
@@ -85,6 +90,14 @@ public class Entity extends CollisionBox2D implements Updater, Renderer, Resizer
         setWidth(getWidth()*widthToResizeBy);
         setHeight(getHeight()*heightToResizeBy);
         setHitBoxHeight(getHitBoxHeight()*heightToResizeBy);
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public Color getColor() {

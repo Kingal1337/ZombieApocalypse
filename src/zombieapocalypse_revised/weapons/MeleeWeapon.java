@@ -29,6 +29,7 @@ public class MeleeWeapon extends Weapon{
     private AbstractAnimation previousAnimation;
     private HumanLookingEntity human;
     private AbstractAnimation animation;
+    private double damageMultiplyer;
     private int hitboxDistance;
     private int swingSpeed;
     private int cooldown;//in ticks / milliseconds
@@ -48,6 +49,7 @@ public class MeleeWeapon extends Weapon{
         this.cooldown = cooldown;
         this.multiKill = multiKill;
         attackAgain = true;
+        damageMultiplyer = 1;
 //        animation = new SlashAnimation(entity.getFrontArm(), swingSpeed, false);
         animation = new SlashAnimation();
     }
@@ -56,7 +58,7 @@ public class MeleeWeapon extends Weapon{
         super(weapon);
         this.previousAnimation = weapon.previousAnimation;
         this.human = weapon.human;
-        this.animation = weapon.animation;
+        this.animation = weapon.animation.copy();
         this.hitboxDistance = weapon.hitboxDistance;
         this.swingSpeed = weapon.swingSpeed;
         this.cooldown = weapon.cooldown;
@@ -67,6 +69,8 @@ public class MeleeWeapon extends Weapon{
         this.multiKill = weapon.multiKill;
         
         this.attacking = weapon.attacking;
+        
+        this.damageMultiplyer = weapon.damageMultiplyer;
     }
     
     @Override
@@ -86,6 +90,7 @@ public class MeleeWeapon extends Weapon{
         if(attacking){
             animation.update(wielder.isLookingLeft(), swingSpeed);
             if(animation.isAnimationOver()){
+                double damageToDo = getDamage()*damageMultiplyer;
                 attacking = false;
                 if(cooldown > 0){
                     attackAgain = false;
@@ -108,7 +113,7 @@ public class MeleeWeapon extends Weapon{
                                         entitysIntersecting.add(entity);
                                     }
                                     else{                                        
-                                        entity.takeDamage(getDamage());
+                                        entity.takeDamage(damageToDo);
                                     }
                                 }                                
                             }
@@ -118,7 +123,7 @@ public class MeleeWeapon extends Weapon{
                                         entitysIntersecting.add(entity);
                                     }
                                     else{                                        
-                                        entity.takeDamage(getDamage());
+                                        entity.takeDamage(damageToDo);
                                     }
                                 }
                             }
@@ -128,7 +133,7 @@ public class MeleeWeapon extends Weapon{
                 if(!multiKill){
                     DamagableEntity entity = (DamagableEntity)Collision.getClosestCollisionBox(wielder, entitysIntersecting);
                     if(entity != null){
-                        entity.takeDamage(getDamage());
+                        entity.takeDamage(damageToDo);
                     }
                 }
             }
@@ -145,18 +150,20 @@ public class MeleeWeapon extends Weapon{
             Graphics2D g2d2 = (Graphics2D)g2d.create();
             g2d2.rotate(Math.toRadians(limb.getIdleAngle()), limb.getPivot().getX(), limb.getPivot().getY());
             if(wielder.isLookingLeft()){
-                g2d2.drawImage(getImage().getImage(), (int)(limb.getX()+limb.getWidth()-limb.getWidth()/2), (int)((limb.getY()+limb.getHeight())-(getResizeDimension().getHeight())), (int)(-getResizeDimension().getWidth()), (int)getResizeDimension().getHeight(), null);
+                g2d2.drawImage(getImage().getImage(), (int)(limb.getX()+limb.getWidth()-limb.getWidth()/2), (int)((limb.getY()+limb.getHeight())-(getHeight())), (int)(-getWidth()), (int)getHeight(), null);
             }
             else{
-                g2d2.drawImage(getImage().getImage(), (int)(limb.getX()+limb.getWidth()/2), (int)((limb.getY()+limb.getHeight())-(getResizeDimension().getHeight())), (int)(getResizeDimension().getWidth()), (int)getResizeDimension().getHeight(), null);
+//                g2d2.drawRect(500,500,(int)getWidth(), (int)getHeight());
+                g2d2.drawImage(getImage().getImage(), (int)(limb.getX()+limb.getWidth()/2), (int)((limb.getY()+limb.getHeight())-(getHeight())), (int)(getWidth()), (int)getHeight(), null);
             }
         }
         limb.render(g2d);
     }
 
     @Override
-    public void hit(ArrayList<Entity> entitys, Wielder wielder, int tickSpeed) {
+    public void hit(ArrayList<Entity> entitys, Wielder wielder, int tickSpeed, double damageMultiplyer) {
         if(!attacking && attackAgain){
+            this.damageMultiplyer = damageMultiplyer;
             attacking = true;
             animation.setAnimationOver(false);
             wielder.setAnimateFrontArm(false);

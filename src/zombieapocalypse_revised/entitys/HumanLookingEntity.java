@@ -10,7 +10,6 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics2D;
 import java.awt.Point;
-import java.awt.geom.Dimension2D;
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
 import java.util.logging.Level;
@@ -19,6 +18,7 @@ import javax.swing.ImageIcon;
 import zombieapocalypse_revised.animations.AbstractAnimation;
 import zombieapocalypse_revised.animations.WalkingAnimation;
 import zombieapocalypse_revised.config.Config;
+import zombieapocalypse_revised.config.DimensionDouble;
 import zombieapocalypse_revised.entitys.skins.CustomSkinSize;
 import zombieapocalypse_revised.limbs.Arm;
 import zombieapocalypse_revised.limbs.Head;
@@ -149,10 +149,10 @@ public class HumanLookingEntity extends MovingEntity{
 //    public Point currentDefaultLegPivotPosition = DEFAULT_LEG_PIVOT_POSITION;
 //    public Point currentDefaultLegPosition = DEFAULT_LEG_POSITION;
     
-    public Dimension2D currentDefaultHeadSize;
-    public Dimension2D currentDefaultArmSize;
-    public Dimension2D currentDefaultLegSize;
-    public Dimension2D currentDefaultBodySize;
+    public DimensionDouble currentDefaultHeadSize;
+    public DimensionDouble currentDefaultArmSize;
+    public DimensionDouble currentDefaultLegSize;
+    public DimensionDouble currentDefaultBodySize;
     public Point2D.Double currentDefaultHeadPosition;
     public Point2D.Double currentDefaultHeadPivotPosition;
     public Point2D.Double currentDefaultArmPivotPosition;
@@ -187,15 +187,17 @@ public class HumanLookingEntity extends MovingEntity{
     
     private boolean lookingLeft;
     
+    private boolean changeArmDirection;
+    
     /*
         size = 1 for default size;  > 1 for bigger size ; < 1 for smaller size
     */
     public HumanLookingEntity(
-            int x, int y, boolean passable, double health, double maxHealth, 
+            String name, int x, int y, boolean passable, double health, double maxHealth, 
             double armor, ImageIcon icon, int speed, boolean effectedByGravity,
             double angle, double size){
 //            Limb[] limbs) {
-        super(x, y, (int)(DEFAULT_BODY_SIZE.width*size), (int)(DEFAULT_BODY_SIZE.height*size), passable, health, maxHealth, armor, icon, speed, effectedByGravity);
+        super(name, x, y, (int)(DEFAULT_BODY_SIZE.width*size), (int)(DEFAULT_BODY_SIZE.height*size), passable, health, maxHealth, armor, icon, speed, effectedByGravity);
 //        if(limbs.length != 4){
 //            try {
 //                throw new Exception("Limbs cannot be greater than or less than 4");
@@ -211,22 +213,18 @@ public class HumanLookingEntity extends MovingEntity{
 //        frontLeg = limbs[2];
 //        backLeg = limbs[3];
         
-        currentDefaultBodySize = new Dimension((int)(DEFAULT_BODY_SIZE.width*size), (int)(DEFAULT_BODY_SIZE.height*size));
-        currentDefaultBodySize.setSize((DEFAULT_BODY_SIZE.width*size), (DEFAULT_BODY_SIZE.height*size));
+        currentDefaultBodySize = new DimensionDouble((DEFAULT_BODY_SIZE.width*size), (DEFAULT_BODY_SIZE.height*size));
         
         currentDefaultHeadPosition = new Point2D.Double((DEFAULT_HEAD_POSITION.x*size), (DEFAULT_HEAD_POSITION.y*size));
-        currentDefaultHeadSize = new Dimension();
-        currentDefaultHeadSize.setSize((DEFAULT_HEAD_SIZE.width*size), (DEFAULT_HEAD_SIZE.height*size));
+        currentDefaultHeadSize = new DimensionDouble((DEFAULT_HEAD_SIZE.width*size), (DEFAULT_HEAD_SIZE.height*size));
         currentDefaultHeadPivotPosition = new Point2D.Double((DEFAULT_HEAD_PIVOT_POSITION.x*size), (DEFAULT_HEAD_PIVOT_POSITION.y*size));
         
         currentDefaultArmPosition = new Point2D.Double((DEFAULT_ARM_POSITION.x*size), (DEFAULT_ARM_POSITION.y*size));
-        currentDefaultArmSize = new Dimension();
-        currentDefaultArmSize.setSize((DEFAULT_ARM_SIZE.width*size), (DEFAULT_ARM_SIZE.height*size));
+        currentDefaultArmSize = new DimensionDouble((DEFAULT_ARM_SIZE.width*size), (DEFAULT_ARM_SIZE.height*size));
         currentDefaultArmPivotPosition = new Point2D.Double((DEFAULT_ARM_PIVOT_POSITION.x*size), (DEFAULT_ARM_PIVOT_POSITION.y*size));
         
         currentDefaultLegPosition = new Point2D.Double((DEFAULT_LEG_POSITION.x*size), (DEFAULT_LEG_POSITION.y*size));
-        currentDefaultLegSize = new Dimension();
-        currentDefaultLegSize.setSize((DEFAULT_LEG_SIZE.width*size), (DEFAULT_LEG_SIZE.height*size));
+        currentDefaultLegSize = new DimensionDouble((DEFAULT_LEG_SIZE.width*size), (DEFAULT_LEG_SIZE.height*size));
         currentDefaultLegPivotPosition = new Point2D.Double((DEFAULT_LEG_PIVOT_POSITION.x*size), (DEFAULT_LEG_PIVOT_POSITION.y*size));
         
         head = new Head(x+currentDefaultHeadPosition.getX(), x+currentDefaultHeadPosition.getY(), currentDefaultHeadSize.getWidth(), currentDefaultHeadSize.getHeight(), 0, null, new Point2D.Double(x+currentDefaultHeadPivotPosition.x, y+currentDefaultHeadPivotPosition.y));
@@ -257,29 +255,29 @@ public class HumanLookingEntity extends MovingEntity{
     }
     
     public HumanLookingEntity(
-            int x, int y, boolean passable, double health, double maxHealth, 
+            String name, int x, int y, boolean passable, double health, double maxHealth, 
             double armor, ImageIcon icon, int speed, boolean effectedByGravity,
             double angle, double size, CustomSkinSize skinSize){
 //            Limb[] limbs) {
-        super(x, y, (int)(skinSize.defaultBodySize.width*size), (int)(skinSize.defaultBodySize.height*size), passable, health, maxHealth, armor, icon, speed, effectedByGravity);
+        super(name, x, y, (int)(skinSize.defaultBodySize.width*size), (int)(skinSize.defaultBodySize.height*size), passable, health, maxHealth, armor, icon, speed, effectedByGravity);
         this.angle = angle;
         this.size = size;
         
-        currentDefaultBodySize = new Dimension();
+        currentDefaultBodySize = new DimensionDouble((skinSize.defaultBodySize.width*size), (skinSize.defaultBodySize.height*size));
         currentDefaultBodySize.setSize((skinSize.defaultBodySize.width*size), (skinSize.defaultBodySize.height*size));
         
         currentDefaultHeadPosition = new Point2D.Double((skinSize.defaultHeadPosition.x*size), (skinSize.defaultHeadPosition.y*size));
-        currentDefaultHeadSize = new Dimension();
+        currentDefaultHeadSize = new DimensionDouble((skinSize.defaultHeadSize.width*size), (skinSize.defaultHeadSize.height*size));
         currentDefaultHeadSize.setSize((skinSize.defaultHeadSize.width*size), (skinSize.defaultHeadSize.height*size));
         currentDefaultHeadPivotPosition = new Point2D.Double((skinSize.defaultHeadPivotPosition.x*size), (skinSize.defaultHeadPivotPosition.y*size));
         
         currentDefaultArmPosition = new Point2D.Double((skinSize.defaultArmPosition.x*size), (skinSize.defaultArmPosition.y*size));
-        currentDefaultArmSize = new Dimension();
+        currentDefaultArmSize = new DimensionDouble((skinSize.defaultArmSize.width*size), (skinSize.defaultArmSize.height*size));
         currentDefaultArmSize.setSize((skinSize.defaultArmSize.width*size), (skinSize.defaultArmSize.height*size));
         currentDefaultArmPivotPosition = new Point2D.Double((skinSize.defaultArmPivotPosition.x*size),(skinSize.defaultArmPivotPosition.y*size));
         
         currentDefaultLegPosition = new Point2D.Double((skinSize.defaultLegPosition.x*size), (skinSize.defaultLegPosition.y*size));
-        currentDefaultLegSize = new Dimension();
+        currentDefaultLegSize = new DimensionDouble((skinSize.defaultLegSize.width*size), (skinSize.defaultLegSize.height*size));
         currentDefaultLegSize.setSize((skinSize.defaultLegSize.width*size), (skinSize.defaultLegSize.height*size));
         currentDefaultLegPivotPosition = new Point2D.Double((skinSize.defaultLegPivotPosition.x*size), (skinSize.defaultLegPivotPosition.y*size));
         
@@ -313,17 +311,13 @@ public class HumanLookingEntity extends MovingEntity{
     public HumanLookingEntity(HumanLookingEntity entity){
         super(entity);
         
-        this.currentDefaultHeadSize = new Dimension();
-        this.currentDefaultHeadSize.setSize(entity.currentDefaultHeadSize.getWidth(), entity.currentDefaultHeadSize.getHeight());
+        this.currentDefaultHeadSize = new DimensionDouble(entity.currentDefaultHeadSize.getWidth(), entity.currentDefaultHeadSize.getHeight());
         
-        this.currentDefaultArmSize = new Dimension((int)entity.currentDefaultArmSize.getWidth(), (int)entity.currentDefaultArmSize.getHeight());
-        this.currentDefaultArmSize.setSize(entity.currentDefaultArmSize.getWidth(), entity.currentDefaultArmSize.getHeight());
+        this.currentDefaultArmSize = new DimensionDouble(entity.currentDefaultArmSize.getWidth(), entity.currentDefaultArmSize.getHeight());
         
-        this.currentDefaultLegSize = new Dimension((int)entity.currentDefaultLegSize.getWidth(), (int)entity.currentDefaultLegSize.getHeight());
-        this.currentDefaultLegSize.setSize(entity.currentDefaultLegSize.getWidth(), entity.currentDefaultLegSize.getHeight());
+        this.currentDefaultLegSize = new DimensionDouble(entity.currentDefaultLegSize.getWidth(), entity.currentDefaultLegSize.getHeight());
         
-        this.currentDefaultBodySize = new Dimension((int)entity.currentDefaultBodySize.getWidth(), (int)entity.currentDefaultBodySize.getHeight());
-        this.currentDefaultBodySize.setSize(entity.currentDefaultBodySize.getWidth(), entity.currentDefaultBodySize.getHeight());
+        this.currentDefaultBodySize = new DimensionDouble(entity.currentDefaultBodySize.getWidth(), entity.currentDefaultBodySize.getHeight());
         
         this.currentDefaultHeadPosition = new Point2D.Double(entity.currentDefaultHeadPosition.getX(), entity.currentDefaultHeadPosition.getY());
         this.currentDefaultHeadPivotPosition = new Point2D.Double(entity.currentDefaultHeadPivotPosition.getX(), entity.currentDefaultHeadPivotPosition.getY());
@@ -435,6 +429,12 @@ public class HumanLookingEntity extends MovingEntity{
     public void render(Graphics2D gd) {
         Graphics2D gd2 = (Graphics2D)gd.create();
         
+//        if(!changeArmDirection){
+//            changeArmDirection = true;
+//            frontArm.setIdleAngle(-frontArm.getIdleAngle());
+//        }
+        
+        
         if(isLookingLeft()){
             backArm.setInverse(true);
             backLeg.setInverse(true);
@@ -500,7 +500,7 @@ public class HumanLookingEntity extends MovingEntity{
             lookingLeft = true;
             ((Head)(head)).setInverse(true);
         }
-        head.render(gd2);        
+        head.render(gd2);   
     }
 
     public double getAngle() {

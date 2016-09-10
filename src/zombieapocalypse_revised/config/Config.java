@@ -7,6 +7,7 @@
 package zombieapocalypse_revised.config;
 
 import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.GraphicsDevice;
 import java.awt.GraphicsEnvironment;
 import javax.swing.JFrame;
@@ -19,20 +20,24 @@ import zombieapocalypse_revised.viewer.MainFrame;
  */
 public class Config {
     public static final String VERSION = Version.getVersion();
-    
-    public static Controls controls = new Controls();
-    
+            
     public static final Dimension DEFAULT_FRAME_SIZE = new Dimension(1920,1080);
     
     public static final Dimension MINIMUM_FRAME_SIZE = new Dimension(640,360);
     
     public static final String CREATOR = "Alan Tsui";
     
+    public static final String COMPANY = "Bearian Inc.";
+    
+    public static final String YEAR = "2016";
+    
     public static final String GAME_TITLE = "Zombie Apocalypse";
     
-    public static boolean showFPS = true;
-    
     private Config(){}
+    
+    public static Settings getDefaultSettings(){
+        return new Settings();
+    }
     
     public static void makeFrameFullScreen(MainFrame frame){
             
@@ -56,10 +61,7 @@ public class Config {
 
             frame.setUndecorated(true);
             gd.setFullScreenWindow(frame);
-
-//                frame.pack();
-//                frame.setLocationRelativeTo(null);
-
+            
             frame.setVisible(true);
         } else {
             System.err.println("Full screen not supported");

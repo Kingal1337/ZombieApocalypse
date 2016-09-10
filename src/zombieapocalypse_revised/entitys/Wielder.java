@@ -15,28 +15,32 @@ import zombieapocalypse_revised.entitys.skins.CustomSkinSize;
 import zombieapocalypse_revised.weapons.ShootableWeapon;
 import zombieapocalypse_revised.weapons.Weapon;
 
-/**
+/** 
  *
  * @author Alan Tsui
  */
 public class Wielder extends HumanLookingEntity{
+    private double damageMultiplyer;
     private WeaponSack weaponSack;
     private boolean reloading;
     
-    public Wielder(int x, int y, boolean passable, double health, double maxHealth, double armor, ImageIcon icon, int speed, boolean effectedByGravity, double angle, double size, WeaponSack weaponSack) {
-        super(x, y, passable, health, maxHealth, armor, icon, speed, effectedByGravity, angle, size);
+    public Wielder(String name, int x, int y, boolean passable, double health, double maxHealth, double armor, ImageIcon icon, int speed, boolean effectedByGravity, double angle, double size, double damageMultiplyer, WeaponSack weaponSack) {
+        super(name, x, y, passable, health, maxHealth, armor, icon, speed, effectedByGravity, angle, size);
+        this.damageMultiplyer = damageMultiplyer;
         this.weaponSack = weaponSack;
         reloading = false;
     }
 
-    public Wielder(int x, int y, boolean passable, double health, double maxHealth, double armor, ImageIcon icon, int speed, boolean effectedByGravity, double angle, double size, WeaponSack weaponSack, CustomSkinSize skinSize) {
-        super(x, y, passable, health, maxHealth, armor, icon, speed, effectedByGravity, angle, size, skinSize);
+    public Wielder(String name, int x, int y, boolean passable, double health, double maxHealth, double armor, ImageIcon icon, int speed, boolean effectedByGravity, double angle, double size, double damageMultiplyer, WeaponSack weaponSack, CustomSkinSize skinSize) {
+        super(name, x, y, passable, health, maxHealth, armor, icon, speed, effectedByGravity, angle, size, skinSize);
+        this.damageMultiplyer = damageMultiplyer;
         this.weaponSack = weaponSack;
         this.reloading = false;
     }
     
     public Wielder(Wielder wielder){
         super(wielder);
+        this.damageMultiplyer = wielder.damageMultiplyer;
         this.weaponSack = wielder.weaponSack.copy();
         this.reloading = wielder.reloading;
     }
@@ -80,7 +84,7 @@ public class Wielder extends HumanLookingEntity{
     }
     
     public void hit(ArrayList<Entity> entitys, int tickSpeed){
-        weaponSack.getCurrentWeapon().hit(entitys, this, tickSpeed);
+        weaponSack.getCurrentWeapon().hit(entitys, this, tickSpeed, getDamageMultiplyer());
     }
     
     public void reload(){
@@ -104,5 +108,13 @@ public class Wielder extends HumanLookingEntity{
 
     public void setReloading(boolean reloading) {
         this.reloading = reloading;
+    }
+
+    public double getDamageMultiplyer() {
+        return damageMultiplyer;
+    }
+
+    public void setDamageMultiplyer(double damageMultiplyer) {
+        this.damageMultiplyer = damageMultiplyer;
     }
 }

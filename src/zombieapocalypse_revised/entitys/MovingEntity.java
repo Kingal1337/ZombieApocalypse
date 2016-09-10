@@ -41,8 +41,8 @@ public class MovingEntity extends DamagableEntity{
     private double velocityY;
     private double jumpSpeed;
     private double gravity;
-    public MovingEntity(int x, int y, int width, int height, boolean passable, double health, double maxHealth, double armor, ImageIcon icon, int speed, boolean effectedByGravity) {
-        super(x, y, width, height, passable, health, maxHealth, armor, icon);        
+    public MovingEntity(String name, int x, int y, int width, int height, boolean passable, double health, double maxHealth, double armor, ImageIcon icon, int speed, boolean effectedByGravity) {
+        super(name, x, y, width, height, passable, health, maxHealth, armor, icon);        
         slowness = 0;
         this.speed = speed;
         jumpSpeed = speed*5;

@@ -14,8 +14,8 @@ import javax.swing.ImageIcon;
  */
 public class Wall extends NonMovingEntity{
 
-    public Wall(int x, int y, int width, int height, boolean passable, double health, double maxHealth, double armor, ImageIcon icon) {
-        super(x, y, width, height, passable, health, maxHealth, armor, icon);
+    public Wall(String name, int x, int y, int width, int height, boolean passable, double health, double maxHealth, double armor, ImageIcon icon) {
+        super(name, x, y, width, height, passable, health, maxHealth, armor, icon);
         setDamagable(false);
     }
     public Wall(Wall wall) {

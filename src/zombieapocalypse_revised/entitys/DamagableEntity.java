@@ -42,8 +42,8 @@ public class DamagableEntity extends ImageEntity{
      * @param armor  the armor (0.00 - 1.00) 0 being no armor and 1 being full armor
      * @param image  the image
      */
-    public DamagableEntity(int x, int y, int width, int height, boolean passable, double health, double maxHealth, double armor, ImageIcon image) {
-        super(x, y, width, height, passable, image);
+    public DamagableEntity(String name, int x, int y, int width, int height, boolean passable, double health, double maxHealth, double armor, ImageIcon image) {
+        super(name, x, y, width, height, passable, image);
         this.health = health;
         this.maxHealth = maxHealth;
         this.armor = armor < 0 ? 0 : armor > 1 ? 1 : armor;
@@ -95,7 +95,6 @@ public class DamagableEntity extends ImageEntity{
                 healthBarColors.add(new Color(red, green, 0));
             }
         }
-            
     }
 
     @Override
@@ -118,13 +117,13 @@ public class DamagableEntity extends ImageEntity{
             double hpBarSize = healthRatio*maxSize;
             
             Color prevColor = gd.getColor();
-            gd.setColor(getColor(health, maxHealth));
-            gd.fill(new Rectangle2D.Double(getX(), healthOffSet, hpBarSize, heightOfBar));
+            gd.setColor(getCurrentHeathColor(health, maxHealth));
+            gd.fillRect((int)getX(), (int)healthOffSet, (int)hpBarSize, (int)heightOfBar);
             gd.setColor(prevColor);
         }
     }
     
-    private Color getColor(double currentHealth, double maxHealth){
+    public Color getCurrentHeathColor(double currentHealth, double maxHealth){
         int arraySize = healthBarColors.size();
         int index = (int)(arraySize/maxHealth*currentHealth);
         index = index >= arraySize ? arraySize-1 : index < 0 ? 0 : index;
@@ -191,6 +190,18 @@ public class DamagableEntity extends ImageEntity{
 
     public void setHealthOffSet(int healthOffSet) {
         this.healthOffSet = healthOffSet;
+    }
+
+    public double getHealth() {
+        return health;
+    }
+
+    public double getMaxHealth() {
+        return maxHealth;
+    }
+
+    public double getArmor() {
+        return armor;
     }
     
 }

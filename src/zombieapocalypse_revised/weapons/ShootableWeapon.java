@@ -134,30 +134,37 @@ public class ShootableWeapon extends Weapon{
     public void setMag(int ammoAmount){
         mag += ammoAmount;
     }
+    
+    public int getMag(){
+        return mag;
+    }
 
     @Override
     public void update(ArrayList<Entity> entitys, Wielder wielder, int tickSpeed) {
         if(reloading){
             reloadCounter += tickSpeed;
             if(reloadCounter >= reloadSpeed){
+                reloadCounter = 0;
                 if(mag >= maxMag){
                     reloading = false;
                 }
                 if(clip <= 0){
                     reloading = false;
                 }
-                if(reloadIndividually){
-                    mag++;
-                    clip--;
-                }
-                else{
-                    if(clip-(maxMag-mag) < 0){
-                        mag += clip;
-                        clip = 0;
+                if(reloading){
+                    if(reloadIndividually){
+                        mag++;
+                        clip--;
                     }
-                    else if(clip-(maxMag-mag) >= 0){
-                        clip -= maxMag-mag;
-                        mag += maxMag-mag;
+                    else{
+                        if(clip-(maxMag-mag) < 0){
+                            mag += clip;
+                            clip = 0;
+                        }
+                        else if(clip-(maxMag-mag) >= 0){
+                            clip -= maxMag-mag;
+                            mag += maxMag-mag;
+                        }
                     }
                 }
             }
@@ -175,25 +182,25 @@ public class ShootableWeapon extends Weapon{
     public void render(Graphics2D gd, Limb limb, Wielder wielder) {        
         Graphics2D g2d = (Graphics2D)gd.create();            
 //        g2d.rotate(Math.atan2(wielder.getAnglePoint().y - (wielder.getY()+exitPoint.y), wielder.getAnglePoint().x - (wielder.getX()+exitPoint.x))+Math.PI/-2.0, limb.getPivot().getX(), limb.getPivot().getY());
-//        g2d.rotate(Math.atan2(wielder.getAnglePoint().y - (((limb.getY()+limb.getHeight())-gunOffset+getResizeDimension().getHeight())), wielder.getAnglePoint().x - (limb.getX()+exitOffset))+Math.PI/-2.0, limb.getPivot().getX(), limb.getPivot().getY());
+//        g2d.rotate(Math.atan2(wielder.getAnglePoint().y - (((limb.getY()+limb.getHeight())-gunOffset+getHeight())), wielder.getAnglePoint().x - (limb.getX()+exitOffset))+Math.PI/-2.0, limb.getPivot().getX(), limb.getPivot().getY());
 
         g2d.rotate(Math.atan2(wielder.getAnglePoint().y - limb.getPivot().y, wielder.getAnglePoint().x - limb.getPivot().x)+Math.PI/-2.0, limb.getPivot().getX(), limb.getPivot().getY());
-        double exitOffsetPercent = getImage() == null ? exitOffset*100 : getResizeDimension().getHeight()*exitOffset;
-        g2d.fillRect((int)(limb.getX()+limb.getWidth()/2+getResizeDimension().getHeight()*exitOffset), (int)((limb.getY()+limb.getHeight())-gunOffset+getResizeDimension().getHeight()), 1, 1);
+        double exitOffsetPercent = getImage() == null ? exitOffset*100 : getHeight()*exitOffset;
+        g2d.fillRect((int)(limb.getX()+limb.getWidth()/2+getHeight()*exitOffset), (int)((limb.getY()+limb.getHeight())-gunOffset+getHeight()), 1, 1);
         if(getImage() != null){            
             Graphics2D g2d2 = (Graphics2D)g2d.create();
             if(wielder.isLookingLeft()){
-                g2d2.drawImage(getImage().getImage(), (int)(limb.getX()+limb.getWidth()-limb.getWidth()/2), (int)((limb.getY()+limb.getHeight())-gunOffset), (int)(-getResizeDimension().getWidth()), (int)getResizeDimension().getHeight(), null);
+                g2d2.drawImage(getImage().getImage(), (int)(limb.getX()+limb.getWidth()-limb.getWidth()/2), (int)((limb.getY()+limb.getHeight())-gunOffset), (int)(-getWidth()), (int)getHeight(), null);
             }
             else{
-                g2d2.drawImage(getImage().getImage(), (int)(limb.getX()+limb.getWidth()/2), (int)((limb.getY()+limb.getHeight())-gunOffset), (int)(getResizeDimension().getWidth()), (int)getResizeDimension().getHeight(), null);
+                g2d2.drawImage(getImage().getImage(), (int)(limb.getX()+limb.getWidth()/2), (int)((limb.getY()+limb.getHeight())-gunOffset), (int)(getWidth()), (int)getHeight(), null);
             }
         }
         limb.render(g2d);
     }
 
     @Override
-    public void hit(ArrayList<Entity> entitys, Wielder entity, int tickSpeed) {
+    public void hit(ArrayList<Entity> entitys, Wielder entity, int tickSpeed, double damageMultiplyer) {
         reloading = false;
         if(shoot){
             if(mag > 0 || infiniteAmmo){
@@ -213,18 +220,98 @@ public class ShootableWeapon extends Weapon{
         newBullet.setAngle(Math.atan2(wielder.getAnglePoint().y - limb.getPivot().y, wielder.getAnglePoint().x - limb.getPivot().x));
         Point2D.Double point;
         if(wielder.isLookingLeft()){
-            point = ShapeUtil.rotatePoint(limb.getPivot(), ((limb.getX()+limb.getWidth()-(limb.getWidth()/2))-getResizeDimension().getHeight()*exitOffset), ((limb.getY()+limb.getHeight())-gunOffset+getResizeDimension().getHeight()), newBullet.getAngle()+Math.PI/-2.0);
+            point = ShapeUtil.rotatePoint(limb.getPivot(), ((limb.getX()+limb.getWidth()-(limb.getWidth()/2))-getHeight()*exitOffset), ((limb.getY()+limb.getHeight())-gunOffset+getHeight()), newBullet.getAngle()+Math.PI/-2.0);
         }
         else{
-            point = ShapeUtil.rotatePoint(limb.getPivot(), (limb.getX()+limb.getWidth()/2+getResizeDimension().getHeight()*exitOffset), ((limb.getY()+limb.getHeight())-gunOffset+getResizeDimension().getHeight()), newBullet.getAngle()+Math.PI/-2.0);
+            point = ShapeUtil.rotatePoint(limb.getPivot(), (limb.getX()+limb.getWidth()/2+getHeight()*exitOffset), ((limb.getY()+limb.getHeight())-gunOffset+getHeight()), newBullet.getAngle()+Math.PI/-2.0);
         }
 //        newBullet.setX((limb.getX()+exitOffset));
-//        newBullet.setY(((limb.getY()+limb.getHeight())-gunOffset+getResizeDimension().getHeight()));
+//        newBullet.setY(((limb.getY()+limb.getHeight())-gunOffset+getHeight()));
         newBullet.setX(point.x);
         newBullet.setY(point.y);
         newBullet.setEntity(wielder);
         newBullet.add(wielder);
         entitys.add(newBullet);
+    }
+
+    public int getMaxMag() {
+        return maxMag;
+    }
+
+    public void setMaxMag(int maxMag) {
+        this.maxMag = maxMag;
+    }
+
+    public int getClip() {
+        return clip;
+    }
+
+    public void setClip(int clip) {
+        this.clip = clip;
+    }
+
+    public int getMaxClip() {
+        return maxClip;
+    }
+
+    public void setMaxClip(int maxClip) {
+        this.maxClip = maxClip;
+    }
+
+    public int getTimeBeforeNextShot() {
+        return timeBeforeNextShot;
+    }
+
+    public void setTimeBeforeNextShot(int timeBeforeNextShot) {
+        this.timeBeforeNextShot = timeBeforeNextShot;
+    }
+
+    public double getGunOffset() {
+        return gunOffset;
+    }
+
+    public void setGunOffset(double gunOffset) {
+        this.gunOffset = gunOffset;
+    }
+
+    public double getExitOffset() {
+        return exitOffset;
+    }
+
+    public void setExitOffset(double exitOffset) {
+        this.exitOffset = exitOffset;
+    }
+
+    public int getReloadSpeed() {
+        return reloadSpeed;
+    }
+
+    public void setReloadSpeed(int reloadSpeed) {
+        this.reloadSpeed = reloadSpeed;
+    }
+
+    public boolean isReloadIndividually() {
+        return reloadIndividually;
+    }
+
+    public void setReloadIndividually(boolean reloadIndividually) {
+        this.reloadIndividually = reloadIndividually;
+    }
+
+    public Bullet getBullet() {
+        return bullet;
+    }
+
+    public void setBullet(Bullet bullet) {
+        this.bullet = bullet;
+    }
+
+    public boolean isInfiniteAmmo() {
+        return infiniteAmmo;
+    }
+
+    public void setInfiniteAmmo(boolean infiniteAmmo) {
+        this.infiniteAmmo = infiniteAmmo;
     }
     
     

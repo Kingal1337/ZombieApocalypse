@@ -17,8 +17,8 @@ import javax.swing.ImageIcon;
  */
 public class ImageEntity extends Entity{
     private ImageIcon icon;
-    public ImageEntity(int x, int y, int width, int height, boolean passable, ImageIcon icon) {
-        super(x, y, width, height, passable);
+    public ImageEntity(String name, int x, int y, int width, int height, boolean passable, ImageIcon icon) {
+        super(name, x, y, width, height, passable);
         this.icon = icon;
     }
     

@@ -32,8 +32,8 @@ public class Bullet extends MovingEntity{
     private double force;
     private int damage;
     private Entity entity;
-    public Bullet(int x, int y, int width, int height, boolean passable, double health, double maxHealth, double armor, ImageIcon icon, int speed, boolean effectedByGravity, int damage, double angle, double force, Entity entity) {
-        super(x, y, width, height, passable, health, maxHealth, armor, icon, speed, effectedByGravity);
+    public Bullet(String name, int x, int y, int width, int height, boolean passable, double health, double maxHealth, double armor, ImageIcon icon, int speed, boolean effectedByGravity, int damage, double angle, double force, Entity entity) {
+        super(name, x, y, width, height, passable, health, maxHealth, armor, icon, speed, effectedByGravity);
         this.damage = damage;
         this.angle = angle;
         this.force = force;

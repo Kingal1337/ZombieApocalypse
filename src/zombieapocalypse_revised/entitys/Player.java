@@ -16,12 +16,12 @@ import zombieapocalypse_revised.entitys.skins.CustomSkinSize;
  */
 public class Player extends Wielder{
 
-    public Player(int x, int y, boolean passable, double health, double maxHealth, double armor, ImageIcon icon, int speed, boolean effectedByGravity, double angle, double size, WeaponSack weaponSack) {
-        super(x, y, passable, health, maxHealth, armor, icon, speed, effectedByGravity, angle, size, weaponSack);
+    public Player(String name, int x, int y, boolean passable, double health, double maxHealth, double armor, ImageIcon icon, int speed, boolean effectedByGravity, double angle, double size, double damageMultiplyer, WeaponSack weaponSack) {
+        super(name, x, y, passable, health, maxHealth, armor, icon, speed, effectedByGravity, angle, size, damageMultiplyer, weaponSack);
     }
 
-    public Player(int x, int y, boolean passable, double health, double maxHealth, double armor, ImageIcon icon, int speed, boolean effectedByGravity, double angle, double size, WeaponSack weaponSack, CustomSkinSize skinSize) {
-        super(x, y, passable, health, maxHealth, armor, icon, speed, effectedByGravity, angle, size, weaponSack, skinSize);
+    public Player(String name, int x, int y, boolean passable, double health, double maxHealth, double armor, ImageIcon icon, int speed, boolean effectedByGravity, double angle, double size, double damageMultiplyer, WeaponSack weaponSack, CustomSkinSize skinSize) {
+        super(name, x, y, passable, health, maxHealth, armor, icon, speed, effectedByGravity, angle, size, damageMultiplyer, weaponSack, skinSize);
     }
     
     public Player(Player player){

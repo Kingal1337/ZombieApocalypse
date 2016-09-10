@@ -14,8 +14,8 @@ import javax.swing.ImageIcon;
  */
 public class NonMovingEntity extends DamagableEntity{
 
-    public NonMovingEntity(int x, int y, int width, int height, boolean passable, double health, double maxHealth, double armor, ImageIcon icon) {
-        super(x, y, width, height, passable, health, maxHealth, armor, icon);
+    public NonMovingEntity(String name, int x, int y, int width, int height, boolean passable, double health, double maxHealth, double armor, ImageIcon icon) {
+        super(name, x, y, width, height, passable, health, maxHealth, armor, icon);
     }
     
     public NonMovingEntity(NonMovingEntity entity){

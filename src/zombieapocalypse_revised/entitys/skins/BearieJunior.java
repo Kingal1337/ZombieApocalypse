@@ -20,8 +20,8 @@ import zombieapocalypse_revised.entitys.accessories.WeaponSack;
  */
 public class BearieJunior extends Player{
 
-    public BearieJunior(int x, int y, boolean passable, double health, double maxHealth, double armor, ImageIcon icon, int speed, boolean effectedByGravity, double angle, double size, WeaponSack weaponSack) {
-        super(x, y, passable, health, maxHealth, armor, icon, speed, effectedByGravity, angle, size, weaponSack, new CustomSkinSize(
+    public BearieJunior(String name, int x, int y, boolean passable, double health, double maxHealth, double armor, ImageIcon icon, int speed, boolean effectedByGravity, double angle, double size, double damageMultiplyer, WeaponSack weaponSack) {
+        super(name, x, y, passable, health, maxHealth, armor, icon, speed, effectedByGravity, angle, size, damageMultiplyer, weaponSack, new CustomSkinSize(
                 new Dimension(60, 45), //head
                 new Dimension(19, 35), //arm
                 new Dimension(48, 52), //leg
@@ -54,6 +54,9 @@ public class BearieJunior extends Player{
             currentDefaultHeadPosition.x = (1*((getWidth()/2)-(getHead().getWidth()/2)));
             currentDefaultHeadPosition.y = (1*(-(getHead().getHeight()+(getHead().getHeight()/10))));
             
+            currentDefaultHeadPivotPosition.x = (1*((getHead().getWidth()/3)));            
+            currentDefaultHeadPivotPosition.y = (1*(-(getHead().getHeight()/2)));
+            
             currentDefaultLegPosition.x = (1*(-(getWidth()/3)));
             currentDefaultLegPivotPosition.x = (1*((-(getWidth()/3))+(getFrontLeg().getWidth()/2)));
             
@@ -63,7 +66,7 @@ public class BearieJunior extends Player{
             currentDefaultHeadPosition.x = (1*((getWidth()/2)-(getHead().getWidth()/3)));
             currentDefaultHeadPosition.y = (1*(-(getHead().getHeight()-(getHead().getHeight()/10))));
             
-            currentDefaultHeadPivotPosition.x = (1*((getHead().getWidth()/3)));            
+            currentDefaultHeadPivotPosition.x = (1*((getHead().getWidth()/2)));            
             currentDefaultHeadPivotPosition.y = (1*(-(getHead().getHeight()/2)));
             
             currentDefaultLegPosition.x = (1*(getWidth()/5)); 

@@ -19,7 +19,7 @@ public class WeaponSack {
     
     public WeaponSack(){
         weapons = new ArrayList<>();
-        weapons.add(Weapon.FIST.copy());
+        weapons.add(Weapon.FISTS.copy());
         currentWeapon = 0;
     }
     
@@ -28,8 +28,8 @@ public class WeaponSack {
         for(int i=0;i<weapons.size();i++){
             this.weapons.add(weapons.get(i).copy());
         }
-        if(!this.weapons.contains(Weapon.FIST)){
-            this.weapons.add(0, Weapon.FIST.copy());
+        if(!this.weapons.contains(Weapon.FISTS)){
+            this.weapons.add(0, Weapon.FISTS.copy());
         }
         currentWeapon = 0;
     }
@@ -108,6 +108,10 @@ public class WeaponSack {
     
     public Weapon getCurrentWeapon(){
         return weapons.get(currentWeapon);
+    }
+    
+    public int getCurrentWeaponIndex(){
+        return currentWeapon;
     }
     
     public Weapon getWeapon(int weaponIndex){
