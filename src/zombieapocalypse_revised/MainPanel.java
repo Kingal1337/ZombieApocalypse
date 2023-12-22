@@ -182,8 +182,6 @@ public class MainPanel extends APanel implements ActionListener, KeyListener, Mo
         fakeFPS = 1000000000.0 / (System.nanoTime() - lastTime);
         lastTime = System.nanoTime();
         if(counter >= 1000){
-            
-        
             counter = 0;
             fps = fakeFPS;
         }

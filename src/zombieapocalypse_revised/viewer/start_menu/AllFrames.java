@@ -40,8 +40,9 @@ public class AllFrames {
         weapons.add(Weapon.MACHETE.copy());
         weapons.add(Weapon.AK47.copy());
         weapons.add(Weapon.REVOLVER.copy());
-//        Player player = new Player(300, 150, false, 100, 100, 1, null, 12, true, 0, 1, new WeaponSack(weapons));
-        BearieJunior player = new BearieJunior("Bearie Junior", 300, 150, false, 100, 100, 1, null, 12, true, 0, 1, 1, new WeaponSack(weapons));
+        Player player = new Player("", 300, 150, false, 100, 100, 1, null, 12, true, 0, 1, 1, new WeaponSack(weapons));
+        
+//        BearieJunior player = new BearieJunior("Bearie Junior", 300, 150, false, 100, 100, 1, null, 12, true, 0, 1, 1, new WeaponSack(weapons));
         player.setEffectedByGravity(true);
 //        player.getFrontArm().setIdleAngle(-90);
 
@@ -56,6 +57,8 @@ public class AllFrames {
 //        entitys.add(new Wall(0, 0, 1000, 50, false, 100, 100, 100, null));
 //        entitys.add(new Wall(0, 0, 50, 100, false, 100, 100, 100, null));
 //        entitys.add(new Wall(1000, 0, 50, 1000, false, 100, 100, 100, null));
+//        player
+        Skin.GREG.applySkin(player);
         entitys.add(player);
         entitys.add(player2);
 //        entitys.add(new Wall(0, 200, 640, 17, false, 100, 100, 100, null));

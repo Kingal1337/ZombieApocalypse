@@ -1,0 +1,25 @@
+
+    
+//public void makeLightMap(BufferedImage lightMap) {
+//   Graphics2D gl = lightMap.createGraphics();
+//   gl.setColor(new Color(0, 0, 0, 255));
+//   gl.fillRect(0, 0, getWidth(), getHeight());
+//   Composite oldComp = gl.getComposite();
+//   gl.setComposite(AlphaComposite.DstOut);
+//
+//   for(Light light : lights) light.render(gl);
+//
+//   gl.setComposite(oldComp);
+//   gl.dispose();
+//}
+
+
+        
+//        Graphics2D g2d = (Graphics2D)gd.create();
+//        java.awt.geom.Point2D center = new java.awt.geom.Point2D.Float(x,y);
+//        float radius = 100;
+//        float[] dist = {0.0f, .5f, 1.0f};
+//        Color[] colors = {new Color(0.0f, 0.0f, 0.0f, 0.0f),Color.YELLOW, Color.BLACK};
+//        RadialGradientPaint p = new RadialGradientPaint(center, radius, dist, colors);
+//        g2d.setPaint(p);
+//        g2d.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, .99f));

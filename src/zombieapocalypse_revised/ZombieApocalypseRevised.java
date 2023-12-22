@@ -86,7 +86,6 @@ public class ZombieApocalypseRevised {
 //        entitys.add(new Wall(0, 0, 1000, 50, false, 100, 100, 100, null));
 //        entitys.add(new Wall(0, 0, 50, 100, false, 100, 100, 100, null));
 //        entitys.add(new Wall(1000, 0, 50, 1000, false, 100, 100, 100, null));
-        entitys.add(player);
 //        entitys.add(player2);
 //        entitys.add(player3);
 //        entitys.add(player4);
@@ -108,6 +107,7 @@ public class ZombieApocalypseRevised {
         Skin.GREG.applySkin(player6);
         Skin.GREG.applySkin(player7);
         Skin.GREG.applySkin(player8);
+        entitys.add(player);
         
 //        player2.setVelocityX(-1);
 //        player2.setRestoreVelXToZero(false);
